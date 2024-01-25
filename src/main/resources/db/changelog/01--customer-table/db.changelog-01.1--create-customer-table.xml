@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+    <changeSet author="OlhaRyzhkova" id="01.1">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="customer"/>
+            </not>
+        </preConditions>
+        <createTable tableName="customer">
+            <column name="id" type="BIGINT" autoIncrement="true" incrementBy="1" generationType="ALWAYS">
+                <constraints nullable="false" primaryKey="true" unique="true"/>
+            </column>
+            <column name="created" type="BIGINT">
+                <constraints nullable="false" primaryKey="false" unique="false"/>
+            </column>
+            <column name="updated" type="BIGINT">
+                <constraints nullable="true" primaryKey="false" unique="false"/>
+            </column>
+            <column name="full_name" type="VARCHAR(50)">
+                <constraints nullable="false" primaryKey="false" unique="false"/>
+            </column>
+            <column name="email" type="VARCHAR(100)">
+                <constraints nullable="false" primaryKey="false" unique="true"/>
+            </column>
+            <column name="phone" type="VARCHAR(14)">
+                <constraints nullable="true" primaryKey="false" unique="false"/>
+            </column>
+            <column name="is_active" type="bool">
+                <constraints nullable="true" primaryKey="false" unique="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

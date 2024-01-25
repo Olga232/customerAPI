@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN" monitorInterval="30">
+    <Properties>
+        <Property name="baseLogDir">logs</Property>
+        <Property name="pattern">%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{1.} - %msg%n</Property>
+    </Properties>
+    <Appenders>
+        <!-- REST API-->
+        <RollingRandomAccessFile name="rest_api" fileName="${baseLogDir}/rest_api.log"
+                                 filePattern="${baseLogDir}/$${date:yyyy-MM}/rest_api-%d{yyyy-MM-dd-HH}-%i.log.gz">
+            <PatternLayout pattern="${pattern}"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="200MB"/>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10">
+                <Delete basePath="${baseLogDir}" maxDepth="1">
+                    <IfFileName glob="*.gz"/>
+                    <IfLastModified age="3d"/>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingRandomAccessFile>
+
+        <!--business layer-->
+        <RollingRandomAccessFile name="business" fileName="${baseLogDir}/business.log"
+                                 filePattern="${baseLogDir}/$${date:yyyy-MM}/business-%d{yyyy-MM-dd-HH}-%i.log.gz">
+            <PatternLayout>
+                <Pattern>${pattern}</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="200MB"/>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10">
+                <Delete basePath="${baseLogDir}" maxDepth="1">
+                    <IfFileName glob="*.gz"/>
+                    <IfLastModified age="3d"/>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingRandomAccessFile>
+
+        <!--hibernate-->
+        <RollingRandomAccessFile name="hibernate" fileName="${baseLogDir}/hibernate.log"
+                                 filePattern="${baseLogDir}/$${date:yyyy-MM}/hibernate-%d{yyyy-MM-dd-HH}-%i.log.gz">
+            <PatternLayout>
+                <Pattern>${pattern}</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="500MB"/>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10">
+                <Delete basePath="${baseLogDir}" maxDepth="1">
+                    <IfFileName glob="*.gz"/>
+                    <IfLastModified age="3d"/>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingRandomAccessFile>
+
+        <!--spring-->
+        <RollingRandomAccessFile name="spring" fileName="${baseLogDir}/spring.log"
+                                 filePattern="${baseLogDir}/$${date:yyyy-MM}/spring-%d{yyyy-MM-dd-HH}-%i.log.gz">
+            <PatternLayout>
+                <Pattern>${pattern}</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="200MB"/>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10">
+                <Delete basePath="${baseLogDir}" maxDepth="1">
+                    <IfFileName glob="*.gz"/>
+                    <IfLastModified age="3d"/>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingRandomAccessFile>
+    </Appenders>
+
+    <Loggers>
+        <!-- REST API-->
+        <Logger name="com.example.customerapi.aspect.logging.ControllerLoggingAspect" additivity="false"
+                level="info">
+            <AppenderRef ref="rest_api"/>
+        </Logger>
+
+        <!--business layer-->
+        <Logger name="com.example.customerapi.aspect.logging.ServiceLoggingAspect" additivity="false"
+                level="trace">
+            <AppenderRef ref="business"/>
+        </Logger>
+
+        <!--hibernate-->
+        <Logger name="org.hibernate" additivity="false" level="debug">
+            <AppenderRef ref="hibernate"/>
+        </Logger>
+
+        <!--spring-->
+        <Root level="INFO">
+            <AppenderRef ref="spring"/>
+        </Root>
+    </Loggers>
+</Configuration>

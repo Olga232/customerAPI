@@ -1,0 +1,16 @@
+version: "3.7"
+services:
+  db:
+    image: postgres
+    restart: always
+    networks:
+      - spring-postgres
+    environment:
+      - POSTGRES_DB=customer-api
+      - POSTGRES_PASSWORD=password
+    ports:
+      - 5555:5432
+    expose:
+      - 5432
+networks:
+  spring-postgres:
